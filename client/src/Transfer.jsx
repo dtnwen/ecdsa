@@ -1,15 +1,22 @@
 import { useState } from "react";
 import server from "./server";
+import verify from "./verify.js"
 
 function Transfer({ address, setBalance }) {
   const [sendAmount, setSendAmount] = useState("");
   const [recipient, setRecipient] = useState("");
+  const [privateKey, setPrivateKey] = useState("")
 
-  const setValue = (setter) => (evt) => setter(evt.target.value);
+  const setValue = (setter) => (evt) => setter(evt.target.value); //get current value (typed)
+// function setValue(setter) { // setter then will be passed as setState function
+//  return function(evt) {
+//    setter(evt.target.value)
+//  } 
+// }  
 
   async function transfer(evt) {
     evt.preventDefault();
-
+    // const verifyx = verify(address, privateKey)
     try {
       const {
         data: { balance },
@@ -32,8 +39,9 @@ function Transfer({ address, setBalance }) {
         Send Amount
         <input
           placeholder="1, 2, 3..."
-          value={sendAmount}
-          onChange={setValue(setSendAmount)}
+          value={sendAmount} //just store state sendAmount as default value
+          onChange={setValue(setSendAmount)} // set SendAmmout state to value
+          // so when type in input, SendAmount state change which change the intial value of input
         ></input>
       </label>
 
@@ -44,6 +52,11 @@ function Transfer({ address, setBalance }) {
           value={recipient}
           onChange={setValue(setRecipient)}
         ></input>
+      </label>
+
+      <label>
+        Private key
+        <input placeholder="Type your private key" value={privateKey} onChange={setValue(setPrivateKey)}></input>
       </label>
 
       <input type="submit" className="button" value="Transfer" />
