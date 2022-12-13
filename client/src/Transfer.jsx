@@ -18,16 +18,26 @@ function Transfer({ address, setBalance }) {
     evt.preventDefault();
     // const verifyx = verify(address, privateKey)
     try {
-      const {
-        data: { balance },
-      } = await server.post(`send`, {
-        sender: address,
-        amount: parseInt(sendAmount),
-        recipient,
-      });
-      setBalance(balance);
-    } catch (ex) {
-      alert(ex.response.data.message);
+      const verifyx = verify(address, privateKey)
+      if (verifyx === true) {
+        try {
+          const verifyx = verify(address, privateKey);
+          const {
+            data: { balance },
+          } = await server.post(`send`, {
+            sender: address,
+            amount: parseInt(sendAmount),
+            recipient,
+          });
+          setBalance(balance);
+        } catch (ex) {
+          alert(ex.response.data.message);
+        }
+      } else {
+        alert('private key does not match')
+      }
+    } catch (err) {
+      alert('private key does not match')
     }
   }
 
